@@ -32,10 +32,6 @@ Consider these plugins to help with server performance:
 8. [Farm Limiter](https://www.spigotmc.org/resources/farm-limiter.1419/) - Limits farm sizes to prevent excessive lag from large automated farms.
 9. [VillagerOptimiser](https://www.spigotmc.org/resources/villager-optimiser-1-14-2-1-16-5.68517/) - Optimizes villager behavior to reduce server load.
 
-# ENHANCED MINECRAFT JAVA SERVER OPTIMIZATION GUIDE
-
-[Previous sections remain unchanged]
-
 ## SERVER CONFIGURATIONS
 
 ### server.properties
@@ -338,6 +334,5 @@ Remember to always backup your configurations before making changes. Server opti
 ## Credits
 
 - Maddy Miller - https://madelinemiller.dev/blog/
-- YouHaveTrouble - https://github.com/YouHaveTrouble/minecraft-optimization/blob/1.21/README.md
 - PaperMC Documentation - https://docs.papermc.io/paper/optimization
 - Aikar's Flags - https://aikar.co/2018/07/02/tuning-the-jvm-g1gc-garbage-collector-flags-for-minecraft/
