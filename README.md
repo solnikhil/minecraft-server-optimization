@@ -1,240 +1,262 @@
-# MINECRAFT JAVA SERVER OPTIMIZATION GUIDE
+# ENHANCED MINECRAFT JAVA SERVER OPTIMIZATION GUIDE
 
-This guide will focus on the optimization part of the minecraft java version. Please make sure to read the whole part for smoother part of the optimization.
+This comprehensive guide focuses on optimizing Minecraft Java servers. Please read the entire guide for a thorough understanding of server optimization techniques.
 
-## CHOOSING THE RIGHT JAR FILE!
+## CHOOSING THE RIGHT JAR FILE
 
-Before getting started with the optimisation part well take a look on the choosing the JAR part.
+Before diving into optimization, let's look at choosing the right server JAR:
 
-[PaperMC](https://papermc.io/software/paper) - Offers significant performance improvements over vanilla.
+1. [PaperMC](https://papermc.io/software/paper) - Offers significant performance improvements over vanilla.
+2. [Purpur](https://purpurmc.org) - A fork of PaperMC, provides even better performance than Paper.
+3. [Folia](https://papermc.io/software/folia) - Designed for multi-threaded performance on larger servers. Note: Not compatible with all plugins.
+4. [Aikars Flags](https://aikar.co/2018/07/02/tuning-the-jvm-g1gc-garbage-collector-flags-for-minecraft/) - While not a JAR, these are optimized JVM flags that can significantly improve server performance.
 
-[Purpur](https://purpurmc.org) - A fork of PAPAERMC, Provides better performance than paper.
+Each of these JARs provides excellent performance improvements over vanilla Minecraft. PaperMC is the standard for performance and compatibility, but the other JARs offer additional benefits.
 
-[Folia](https://papermc.io/software/folia) - Designed for multi-threaded performance on larger server. Not compatible with all plugins.
+### WHAT TO AVOID
 
-Each of these jar's provide excellent performace improvements over the vanilla minecraft. PaperMC is standard for performance and compatiblity, but the other jar's offer additional benifits.
+- Avoid any **PAID** server JARs that claim async capabilities.
+- Refrain from using old Bukkit/Spigot JARs as they are extremely outdated compared to the software mentioned above.
 
-### WHAT SHOULD YOU AVOID
+## PERFORMANCE-ENHANCING PLUGINS
 
-- Avoid any **PAID** server JAR that claimes async things.
-- Refain from using the old Bukkit/Spigot jars as they are extremely outdated to the softwars i have mentioned above.
+Consider these plugins to help with server performance:
 
-
-Before doing any optmisations we should get to know about some plugins which can helo us with server performance.
-
-[ClearLag](https://www.spigotmc.org/resources/clearlagg.68271/) - Removes entities, limits mob spawning, and cleans up the server.
-
-[Chunky](https://www.spigotmc.org/resources/chunky.81534/) - Pre-Generate minecraft chunks to reduce lag during exploration.
-
-[Spark] - Advanced profiler for analyzing and pptimizing minecraft server performance. (Pre downloaded in GB Nodes and other hostings.)
-
-[EmtityTrackerFixer](https://www.spigotmc.org/resources/entity-tracker-fixer-2-1-18-1-1-18-2.101145/) - Reduces lag caused by entitiy tracking.
-
-These are the recommended plugins that i like to use for optimising server's performance.
+1. [ClearLag](https://www.spigotmc.org/resources/clearlagg.68271/) - Removes entities, limits mob spawning, and cleans up the server.
+2. [Chunky](https://www.spigotmc.org/resources/chunky.81534/) - Pre-generates Minecraft chunks to reduce lag during exploration.
+3. [Spark](https://spark.lucko.me/) - Advanced profiler for analyzing and optimizing Minecraft server performance.
+4. [EntityTrackerFixer](https://www.spigotmc.org/resources/entity-tracker-fixer-2-1-18-1-1-18-2.101145/) - Reduces lag caused by entity tracking.
+5. [FastAsyncWorldEdit (FAWE)](https://www.spigotmc.org/resources/fastasyncworldedit.13932/) - Optimized version of WorldEdit for faster world manipulation.
+6. [TickProfiler](https://github.com/MinecraftForge/TickProfiler) - Diagnoses lag sources and provides detailed server performance analysis.
+7. [Lag Assist](https://www.spigotmc.org/resources/lagassist-%E2%9A%A1-advanced-performance-optimization.56399/) - Comprehensive lag reduction and server optimization plugin.
+8. [Farm Limiter](https://www.spigotmc.org/resources/farm-limiter.1419/) - Limits farm sizes to prevent excessive lag from large automated farms.
+9. [VillagerOptimiser](https://www.spigotmc.org/resources/villager-optimiser-1-14-2-1-16-5.68517/) - Optimizes villager behavior to reduce server load.
 
 ## SERVER CONFIGURATIONS
 
+### server.properties
 
-`server.properties`
-```
+```properties
 view-distance=8
-# Reason: Reduces the number of chunks that need to be loaded and sent to players, significantly reducing server load.
-
 simulation-distance=6
-# Reason: Limits the distance at which game mechanics are simulated, further reducing server load without significantly impacting gameplay.
-
 network-compression-threshold=256
-# Reason: Balances between bandwidth usage and CPU load for packet compression.
-
 max-players=20
-# Reason: Set this to your expected player count. Lower values can help with resource allocation.
-
 max-tick-time=60000
-# Reason: Prevents the server from prematurely shutting down due to temporary lag spikes.
-
 use-native-transport=true
-# Reason: Enables optimized packet sending on Linux systems.
-
 enable-command-block=false
-# Reason: Command blocks can be used for exploits and can cause lag if used excessively.
-
 sync-chunk-writes=true
-# Reason: Helps prevent chunk corruption, especially on servers with frequent restarts or crashes.
-
 spawn-protection=16
-# Reason: Protects the spawn area from griefing. Adjust based on your server's needs.
+entity-broadcast-range-percentage=100
 ```
 
-`spigot.yml`
-```
+### spigot.yml
+
+```yaml
 settings:
   save-user-cache-on-stop-only: true
-  # Reason: Reduces frequent writes to the user cache file, improving performance.
+  max-tick-time:
+    tile: 1000
+    entity: 1000
 
 world-settings:
   default:
     mob-spawn-range: 6
-    # Reason: Reduces the range at which mobs spawn around players, reducing entity count and improving performance.
-
     entity-activation-range:
       animals: 32
       monsters: 32
       raiders: 48
       misc: 16
-      # Reason: Reduces the range at which entities are ticked, significantly improving performance.
-
     tick-inactive-villagers: false
-    # Reason: Prevents villagers from being ticked when far from players, reducing CPU usage.
-
     merge-radius:
       item: 2.5
       exp: 3.0
-      # Reason: Causes nearby item entities and experience orbs to merge, reducing entity count.
-
     item-despawn-rate: 6000
-    # Reason: Items despawn faster (5 minutes), reducing entity count.
-
     arrow-despawn-rate: 1200
-    # Reason: Arrows despawn faster (1 minute), reducing entity count.
-
     nerf-spawner-mobs: true
-    # Reason: Mobs from spawners have reduced AI, improving performance.
-
     max-entity-collisions: 8
-    # Reason: Limits the number of entities that can collide, reducing CPU usage.
-
-    max-tick-time:
-      tile: 50
-      entity: 50
-      # Reason: Prevents excessive time being spent on single tile entities or entities, improving overall performance.
+    growth:
+      cactus-modifier: 100
+      cane-modifier: 100
+      melon-modifier: 100
+      mushroom-modifier: 100
+      pumpkin-modifier: 100
+      sapling-modifier: 100
+      beetroot-modifier: 100
+      carrot-modifier: 100
+      potato-modifier: 100
+      wheat-modifier: 100
+      netherwart-modifier: 100
+      vine-modifier: 100
+      cocoa-modifier: 100
+    hopper-amount: 1
+    dragon-death-sound-radius: 0
+    seed-village: 10387312
+    seed-desert: 14357617
+    seed-igloo: 14357618
+    seed-jungle: 14357619
+    seed-swamp: 14357620
+    seed-monument: 10387313
+    seed-shipwreck: 165745295
+    seed-ocean: 14357621
+    seed-outpost: 165745296
+    seed-endcity: 10387313
+    seed-slime: 987234911
+    seed-nether: 30084232
+    seed-mansion: 10387319
+    seed-fossil: 14357921
+    seed-portal: 34222645
 ```
 
-`bukkit.yml`
-```
+### bukkit.yml
+
+```yaml
 spawn-limits:
   monsters: 50
   animals: 10
   water-animals: 5
   water-ambient: 20
   ambient: 5
-  # Reason: Limits the number of mobs that can spawn, significantly reducing server load.
 
 chunk-gc:
   period-in-ticks: 600
-  # Reason: Runs garbage collection for chunks every 30 seconds, freeing up memory.
 
 ticks-per:
   animal-spawns: 400
   monster-spawns: 1
-  # Reason: Reduces the frequency of animal spawns while keeping monster spawns frequent for difficulty.
-
   autosave: 6000
-  # Reason: Sets autosave to occur every 5 minutes, balancing between data safety and performance.
+
+aliases: now-in-commands.yml
 ```
 
-`paper.yml`
-```
+### paper.yml
+
+```yaml
 max-auto-save-chunks-per-tick: 24
-# Reason: Limits the number of chunks saved per tick, preventing auto-save from causing lag spikes.
-
 optimize-explosions: true
-# Reason: Uses a more efficient algorithm for explosion calculations.
-
 mob-spawner-tick-rate: 2
-# Reason: Reduces the tick rate of mob spawners, improving performance without significantly impacting spawn rates.
-
 container-update-tick-rate: 3
-# Reason: Reduces the frequency of container updates, improving performance.
-
 grass-spread-tick-rate: 4
-# Reason: Slows down grass spreading, which can be CPU intensive.
-
 despawn-ranges:
   monster:
     soft: 32
     hard: 128
-  # Reason: Adjusts mob despawn ranges to balance between performance and mob presence.
-
 hopper:
   disable-move-event: true
-  # Reason: Disables firing of move events for items in hoppers, significantly improving performance of hopper-heavy contraptions.
-
 anti-xray:
   enabled: true
   engine-mode: 1
-  # Reason: Enables basic anti-xray protection without significant performance impact.
-
 use-faster-eigencraft-redstone: true
-# Reason: Uses a more efficient redstone implementation, significantly improving performance of redstone contraptions.
-
 armor-stands-tick: false
-# Reason: Prevents armor stands from ticking, improving performance especially with many armor stands.
-
 per-player-mob-spawns: true
-# Reason: Enables more efficient mob spawning around players.
-
 alt-item-despawn-rate:
   enabled: true
   items:
     COBBLESTONE: 300
-    # Reason: Makes certain common items despawn faster, reducing entity count.
+    NETHERRACK: 300
+    DIRT: 300
+    SAND: 300
+max-entity-collisions: 2
+tick-rates:
+  sensor:
+    villager: 1
+    raid: 1
+    hoglin: 1
+collisions:
+  allow-vehicle-collisions: false
+  fix-climbing-bypassing-cramming-rule: true
+  only-players-collide: true
+entity-per-chunk-save-limit:
+  experience_orb: 16
+  snowball: 16
+  ender_pearl: 16
+  arrow: 16
+prevent-moving-into-unloaded-chunks: true
+use-faster-threadlocalrandom: true
+lava-flow-speed:
+  normal: 30
+  nether: 10
 ```
 
-Make sure to take a backup of your current configurations before doing anything.
+### purpur.yml (if using Purpur)
 
-## Lets talk about malware
+```yaml
+settings:
+  use-alternative-item-despawn-rate: true
+  use-faster-night-skip: true
+  use-faster-eigencraft-redstone: true
+  dont-send-useless-entity-packets: true
+  dont-send-useless-lightning-packets: true
+  keep-spawn-loaded: false
+  keep-spawn-loaded-range: 8
 
-### How to detect if you are infected?
+world-settings:
+  default:
+    mobs:
+      cow:
+        ridable: true
+        controllable: true
+      chicken:
+        ridable: true
+        controllable: true
+    gameplay-mechanics:
+      disable-ice-and-snow: true
+      disable-teleportation-suffocation-check: true
+      disable-chest-cat-detection: true
+      disable-end-credits: true
+      disable-phantom-spawns: true
+      disable-pillager-patrols: true
+```
 
-THere are different types of malware, however you can detect if you have malware by the following ways:
+## ADDITIONAL OPTIMIZATION TIPS
 
-- Spike in resource usage. - Genereally malware do things such as crypto mining or logging and reporting activity to a local server, these tasks take up a lot of resources and are easy to know.
+1. **Pre-generate your world**: Use a plugin like Chunky to pre-generate your world. This reduces lag caused by chunk generation during gameplay.
 
-- Increase in plugin file size. - Some malware hides itself in plugin's ar files to make it harder to detect.
+2. **Optimize your network settings**: 
+   - Use a wired connection instead of Wi-Fi.
+   - Configure your router's Quality of Service (QoS) settings to prioritize Minecraft traffic.
+   - Increase the `network-compression-threshold` in server.properties for better network performance.
 
-- Strange errors.
+3. **Use SSDs for storage**: SSDs can significantly improve chunk loading and saving times.
 
-### How to avaoid malware?
+4. **Monitor and adjust**: Regularly use tools like Spark or Timings to monitor your server's performance and adjust settings accordingly.
 
-Well its pretty easy to avoid malware just follow these steps:
+5. **Keep software updated**: Regularly update your server software, Java version, and plugins to benefit from the latest optimizations and bug fixes.
 
-- Avoid using unkown plugins or newly uploaded plugins.
-- Use only official downloads.
-- Dont download plugins from any cracked website like blackspigot or spigotunlocked etc.
+6. **Limit redstone complexity**: Excessively complex redstone contraptions can cause significant lag. Consider using plugins that optimize redstone or limit its complexity.
 
-### How to get rid of it
+7. **Control entity cramming**: Use the `max-entity-cramming` gamerule to limit the number of entities that can be pushed into one block.
 
-Many minecraft malware tries to spread itself to other jar files on your server.
+8. **Optimize plugin usage**: Only use necessary plugins and ensure they are compatible and optimized for your server version.
 
-Follow these steps to red rid of malware:
+9. **Configure view distance dynamically**: Consider using a plugin like [ViaVersion](https://www.spigotmc.org/resources/viaversion.19254/) to dynamically adjust player view distances based on server load.
 
-- Reinstall every single jar files. - Every single one present on the server
+10. **Limit chunk loading**: Use a plugin like [ChunkMaster](https://www.spigotmc.org/resources/chunkmaster.71351/) to control and optimize chunk loading, especially for teleportation and world generation.
 
+11. **Optimize mob spawning**: Adjust mob spawn limits and frequencies in bukkit.yml and spigot.yml to reduce server load from excessive mob spawning.
 
+12. **Use server-side protection**: Implement server-side protection plugins like WorldGuard to prevent client-side exploits and reduce server load from malicious actions.
 
+13. **Implement an anti-cheat system**: Use plugins like NoCheatPlus or Matrix to prevent cheating and reduce server load from illegitimate player actions.
 
+14. **Optimize inventory handling**: Use plugins like InventoryTweaks or FastInv to optimize inventory operations and reduce server load from frequent inventory interactions.
 
+15. **Implement chunk loading optimization**: Use plugins like ChunkLoader or FastChunkPregen to optimize chunk loading and generation processes.
 
+16. **Use memory-efficient data structures**: When developing custom plugins, use memory-efficient data structures and algorithms to reduce server memory usage.
 
+17. **Implement caching mechanisms**: Use caching for frequently accessed data to reduce database queries and improve server response times.
 
+18. **Optimize database queries**: If using a database, optimize your queries and indexes to improve performance and reduce server load.
 
+19. **Use asynchronous processing**: When possible, use asynchronous processing for non-critical tasks to reduce main thread load.
 
+20. **Implement proper garbage collection**: Use appropriate garbage collection settings (like Aikar's Flags) to optimize memory management and reduce lag spikes.
 
+Remember to always backup your configurations before making changes. Server optimization is an ongoing process, so continually monitor your server's performance and adjust settings as needed.
 
+## Credits
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-Credits!
-Maddy Miller - https://madelinemiller.dev/blog/
-YouHaveTrouble - https://github.com/YouHaveTrouble/minecraft-optimization/blob/1.21/README.md
+- Maddy Miller - https://madelinemiller.dev/blog/
+- YouHaveTrouble - https://github.com/YouHaveTrouble/minecraft-optimization/blob/1.21/README.md
+- PaperMC Documentation - https://docs.papermc.io/paper/optimization
+- Aikar's Flags - https://aikar.co/2018/07/02/tuning-the-jvm-g1gc-garbage-collector-flags-for-minecraft/
