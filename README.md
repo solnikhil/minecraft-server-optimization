@@ -38,23 +38,29 @@ These are the recommended plugins that i like to use for optimising server's per
 `server.properties`
 ```
 view-distance=8
+# Reason: Reduces the number of chunks that need to be loaded and sent to players, significantly reducing server load.
+
 simulation-distance=6
+# Reason: Limits the distance at which game mechanics are simulated, further reducing server load without significantly impacting gameplay.
+
 network-compression-threshold=256
+# Reason: Balances between bandwidth usage and CPU load for packet compression.
+
 max-players=20
-entity-broadcast-range-percentage=100
-max-world-size=29999984
-spawn-protection=16
+# Reason: Set this to your expected player count. Lower values can help with resource allocation.
+
 max-tick-time=60000
+# Reason: Prevents the server from prematurely shutting down due to temporary lag spikes.
+
 use-native-transport=true
-enable-jmx-monitoring=false
+# Reason: Enables optimized packet sending on Linux systems.
+
 enable-command-block=false
-allow-nether=true
+# Reason: Command blocks can be used for exploits and can cause lag if used excessively.
+
 sync-chunk-writes=true
-enable-query=false
-prevent-proxy-connections=true
-spawn-monsters=true
-enforce-whitelist=false
-spawn-npcs=true
-generate-structures=true
-max-chained-neighbor-updates=1000000
+# Reason: Helps prevent chunk corruption, especially on servers with frequent restarts or crashes.
+
+spawn-protection=16
+# Reason: Protects the spawn area from griefing. Adjust based on your server's needs.
 ```
