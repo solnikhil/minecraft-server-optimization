@@ -331,6 +331,55 @@ These configurations are designed to optimize various aspects of server performa
 
 Remember to always backup your configurations before making changes. Server optimization is an ongoing process, so continually monitor your server's performance and adjust settings as needed.
 
+## MONITORING AND TROUBLESHOOTING
+
+Continuous monitoring and troubleshooting are crucial for maintaining an optimized Minecraft server. Here are some tools and techniques to help you keep your server running smoothly:
+
+1. **Timings Reports**: Use `/timings report` in-game or console to generate a detailed report of server performance. This helps identify plugins or areas of the game causing lag.
+
+2. **Spark Profiler**: If installed, use `/spark profiler` to get more detailed performance analysis, including CPU usage breakdowns.
+
+3. **Console Logging**: Regularly check your server console for warnings, errors, or unusual messages that might indicate performance issues.
+
+4. **Performance Monitoring Plugins**: Consider using plugins like LagMonitor or ServerStats to get real-time performance data.
+
+5. **External Monitoring Tools**: Use external monitoring services like UptimeRobot to keep track of your server's availability.
+
+6. **Regular Performance Audits**: Schedule regular audits of your server's performance, checking things like TPS (ticks per second), memory usage, and CPU load.
+
+## BEST PRACTICES FOR ONGOING MAINTENANCE
+
+To keep your Minecraft server optimized over time, consider the following best practices:
+
+1. **Regular Updates**: Keep your server software, plugins, and Java runtime up to date to benefit from the latest optimizations and security patches.
+
+2. **Plugin Management**: Regularly review your plugins. Remove any that are no longer needed, and look for lighter alternatives to heavy plugins.
+
+3. **World Management**: 
+   - Regularly prune unused chunks to keep world sizes manageable.
+   - Consider using a world border to limit world size.
+   - Periodically reset resource-intensive dimensions like The End or The Nether.
+
+4. **Backup Strategy**: Implement a robust backup strategy to protect against data loss and allow for quick recovery in case of issues.
+
+5. **Player Education**: Educate your players about lag-inducing behaviors (like creating overly complex redstone contraptions) and server-friendly practices.
+
+6. **Scheduled Restarts**: Implement scheduled server restarts (e.g., daily) to clear memory and reset any accumulated issues.
+
+7. **Performance-Based Decisions**: Make gameplay decisions with performance in mind. For example, limit the use of entities as decorations or the complexity of automatic farms.
+
+8. **Scalability Planning**: Plan for scalability. As your server grows, be prepared to upgrade hardware or optimize further.
+
+9. **Community Feedback**: Encourage your community to report performance issues and consider their feedback in your optimization efforts.
+
+10. **Stay Informed**: Keep up with the latest Minecraft server optimization techniques by following relevant forums, blogs, and community discussions.
+
+## CONCLUSION
+
+Optimizing a Minecraft server is an ongoing process that requires attention to detail, regular maintenance, and a willingness to adapt to changing conditions. By implementing the configurations and practices outlined in this guide, you'll be well on your way to running a smooth, efficient Minecraft server.
+
+Remember that every server is unique, with its own set of plugins, player behaviors, and hardware limitations. Use this guide as a starting point, but don't be afraid to experiment and find the perfect balance for your specific server.
+
 ## Credits
 
 - Maddy Miller - https://madelinemiller.dev/blog/
